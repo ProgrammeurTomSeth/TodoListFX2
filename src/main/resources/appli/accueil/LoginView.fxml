@@ -2,11 +2,12 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.TextField?>
 <VBox alignment="CENTER" prefHeight="239.0" prefWidth="250.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="appli.accueil.LoginController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -23,11 +24,14 @@
          </font>
       </Text>
       <TextField fx:id="fieldEmail" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Votre mot de passe :" />
-      <TextField fx:id="fieldMDP" />
-      <Text fx:id="textErreur" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Label pour erreur" />
-      <Button mnemonicParsing="false" text="Connexion" />
-      <Button mnemonicParsing="false" text="Mot de passe oublié" />
-      <Button mnemonicParsing="false" text="Inscription" />
+      <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Votre mot de passe :">
+         <font>
+            <Font size="13.0" />
+         </font></Text>
+      <PasswordField fx:id="fieldMDP" />
+      <Text fx:id="textErreur" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Button fx:id="BtConnexion" mnemonicParsing="false" onAction="#Connexion" text="Connexion" />
+      <Button fx:id="BtMdpOu" mnemonicParsing="false" onAction="#MdpOublier" text="Mot de passe oublié" />
+      <Button fx:id="BtInscri" mnemonicParsing="false" onAction="#Inscription" text="Inscription" />
    </children>
 </VBox>
