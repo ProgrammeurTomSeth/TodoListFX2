@@ -6,6 +6,7 @@ public class Utilisateur {
     String nom;
     String email;
     String mdp;
+    String role;
 
     public int getId_utilisateur() {
         return id_utilisateur;
@@ -37,19 +38,27 @@ public class Utilisateur {
     public void setMdp(String mdp) {
         this.mdp = mdp;
     }
+    public String getRole() {
+        return role;
+    }
+    public void setRole(String role) {
+        this.role = role;
+    }
 
-    public Utilisateur(int id_utilisateur, String prenom, String nom, String email, String mdp) {
+    public Utilisateur(int id_utilisateur, String prenom, String nom, String email, String mdp, String role) {
         this.id_utilisateur = id_utilisateur;
         this.prenom = prenom;
         this.nom = nom;
         this.email = email;
         this.mdp = mdp;
+        this.role = role;
     }
-    public Utilisateur(String prenom, String nom, String email, String mdp) {
+    public Utilisateur(String prenom, String nom, String email, String mdp, String role) {
         this.prenom = prenom;
         this.nom = nom;
         this.email = email;
         this.mdp = mdp;
+        this.role = role;
     }
     public Utilisateur(String email, String mdp) {
         this.email = email;
