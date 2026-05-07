@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class UtilisateurRepository {
     private Connection connection;
 
-    public UtilisateurRepository(Connection connection) {
+    public UtilisateurRepository() {
         this.connection = Database.getConnexion();
     }
     public void ajouterUtilisateur(Utilisateur utilisateur) {
@@ -56,5 +56,12 @@ public class UtilisateurRepository {
     public ArrayList<Utilisateur> getTousLesUtilisateurs() {
         ArrayList<Utilisateur> utilisateurs = new ArrayList<>();
         String sql = "SELECT * FROM utilisateur";
+        return utilisateurs;
+    }
+    public void supprimerUtilisateurParEmail(String email) {
+        String sql = "DELETE FROM utilisateur WHERE email = ?";
+    }
+    public void mettreAJourUtilisateur(Utilisateur utilisateur) {
+        String sql = "Update utilisateur SET nom=?, prenom=?, mdp=?, role=? where email = ?";
     }
 }

@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import repository.UtilisateurRepository;
+import model.Utilisateur;
 
 import java.io.IOException;
 
@@ -45,5 +47,7 @@ public class LoginController {
     void MdpOublier(ActionEvent event) {
 
     }
+
+    private UtilisateurRepository utilisateurRepository = new UtilisateurRepository();
 
 }
