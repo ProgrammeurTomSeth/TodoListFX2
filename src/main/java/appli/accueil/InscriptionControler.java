@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import repository.UtilisateurRepository;
+import model.Utilisateur;
 
 import java.io.IOException;
 
@@ -26,6 +28,8 @@ public class InscriptionControler {
     private TextField zonePrenom;
     @FXML
     private Label erreur;
+
+    private UtilisateurRepository utilisateurRepository = new UtilisateurRepository();
 
     @FXML
     void Inscription(ActionEvent event) {

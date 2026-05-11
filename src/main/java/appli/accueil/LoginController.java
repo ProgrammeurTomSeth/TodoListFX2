@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import repository.UtilisateurRepository;
 import model.Utilisateur;
+import session.SessionUtilisateur;
 
 import java.io.IOException;
 
@@ -26,17 +27,22 @@ public class LoginController {
     @FXML
     private Text textErreur;
     @FXML
-    void Connexion(ActionEvent event) {
+    void Connexion(ActionEvent event) throws IOException {
         String email = fieldEmail.getText();
         String mdp = fieldMDP.getText();
         System.out.println("Email: " + email);
         System.out.println("MDP: " + mdp);
         if (email.isEmpty() || mdp.isEmpty()) {
             textErreur.setText("Tous les champs sont obligatories !");
-        } else if (email.equals("t.treillon@orange.fr") && mdp.equals("Azerty1234")) {
-            textErreur.setText("Vous êtes connecté !");
-        }else {
-            textErreur.setText("Les informations fournis ne suffisent pas à vous authentifier");
+        } else {
+            UtilisateurRepository utilisateurRepository = new UtilisateurRepository();
+            Utilisateur u = utilisateurRepository.getUtilisateursParEmail(email);
+            if (u.getMdp().equals(mdp)) {
+                labelErreur.setText("Tu est connecté");
+                StartApplication.changeScene("admin/Dashboard");
+            }else {
+                labelErreur.setText("Les infos ne correspondent pas");
+            }
         }
     }
     @FXML
