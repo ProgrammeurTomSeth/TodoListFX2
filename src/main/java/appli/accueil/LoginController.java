@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import repository.UtilisateurRepository;
 import model.Utilisateur;
 import session.SessionUtilisateur;
@@ -26,23 +27,22 @@ public class LoginController {
     private PasswordField fieldMDP;
     @FXML
     private Text textErreur;
+    private UtilisateurRepository utilisateurRepository = new UtilisateurRepository();
     @FXML
-    void Connexion(ActionEvent event) throws IOException {
-        String email = fieldEmail.getText();
+    void Connexion(ActionEvent event) {
+        String mail = fieldEmail.getText();
         String mdp = fieldMDP.getText();
-        System.out.println("Email: " + email);
-        System.out.println("MDP: " + mdp);
-        if (email.isEmpty() || mdp.isEmpty()) {
-            textErreur.setText("Tous les champs sont obligatories !");
+        Utilisateur utilisateur = utilisateurRepository.findByMail(mail);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (utilisateur != null && passwordEncoder.matches(mdp, utilisateur.getMdp())) {
+            System.out.println("Connexion réussie pour : " + utilisateur.getNom());
+            SessionUtilisateur.getInstance().sauvegardeSession(utilisateur);
+            textErreur.setText("Connexion réussie !");
+            textErreur.setVisible(true);
         } else {
-            UtilisateurRepository utilisateurRepository = new UtilisateurRepository();
-            Utilisateur u = utilisateurRepository.getUtilisateursParEmail(email);
-            if (u.getMdp().equals(mdp)) {
-                labelErreur.setText("Tu est connecté");
-                StartApplication.changeScene("admin/Dashboard");
-            }else {
-                labelErreur.setText("Les infos ne correspondent pas");
-            }
+            System.out.println("Échec de la connexion.");
+            textErreur.setText("Email ou mot de passe incorrect.");
+            textErreur.setVisible(true);
         }
     }
     @FXML
@@ -51,9 +51,5 @@ public class LoginController {
     }
     @FXML
     void MdpOublier(ActionEvent event) {
-
     }
-
-    private UtilisateurRepository utilisateurRepository = new UtilisateurRepository();
-
 }

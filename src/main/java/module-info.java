@@ -3,6 +3,7 @@ module appli.accueil {
     requires javafx.fxml;
     requires java.xml;
     requires java.sql;
+    requires spring.security.crypto;
 
 
     opens appli.accueil to javafx.fxml;

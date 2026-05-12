@@ -6,10 +6,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import repository.UtilisateurRepository;
 import model.Utilisateur;
-
+import repository.UtilisateurRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class InscriptionControler {
     @FXML
@@ -38,19 +41,31 @@ public class InscriptionControler {
         String mail = zoneMail.getText();
         String mdp = zoneMDP.getText();
         String confirmation = confirMDP.getText();
-        System.out.println("nom: " + nom);
-        System.out.println("prenom: " + prenom);
-        System.out.println("mail: " + mail);
-        System.out.println("mdp: " + mdp);
-        System.out.println("confirmation: " + confirmation);
-        if (nom.isEmpty() || prenom.isEmpty() || mail.isEmpty() || mdp.isEmpty()) {
+
+        if (nom.isEmpty() || prenom.isEmpty() || mail.isEmpty() || mdp.isEmpty() || confirmation.isEmpty()) {
             erreur.setText("Il faut remplir tous les champs !");
-        } else if (!mdp.equals(confirmation)) {
-            erreur.setText("Le mot de passe ne correspond pas à la confirmation du mot de passe !");
-        } else {
-            erreur.setText("");
+            return;
         }
+
+        if (!mdp.equals(confirmation)) {
+            erreur.setText("Les mots de passe ne correspondent pas !");
+            return;
+        }
+
+        Utilisateur utilisateurExistant = utilisateurRepository.findByMail(mail);
+
+        if (utilisateurExistant != null) {
+            erreur.setText("Un utilisateur existe déjà avec ce mail !");
+            return;
+        }
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String mdpHash = passwordEncoder.encode(mdp);
+        Utilisateur nouvelUtilisateur = new Utilisateur(prenom, nom, mail, mdpHash, "utilisateur");
+        utilisateurRepository.save(nouvelUtilisateur);
+        erreur.setText("Inscription réussie !");
     }
+
     @FXML
     void Retour(ActionEvent event) throws IOException {
         StartApplication.changeScene("accueil/Login");

@@ -10,15 +10,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class UtilisateurRepository {
-    private Connection connection;
+    private Connection connexion;
 
     public UtilisateurRepository() {
-        this.connection = Database.getConnexion();
+        this.connexion = Database.getConnexion();
     }
     public void ajouterUtilisateur(Utilisateur utilisateur) {
         String sql = "INSERT INTO utilisateurs (nom, prenom, email, mdp, role) VALUES (?, ?, ?, ?, ?)";
         try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
+            PreparedStatement stmt = connexion.prepareStatement(sql);
             stmt.setString(1, utilisateur.getNom());
             stmt.setString(2, utilisateur.getPrenom());
             stmt.setString(3, utilisateur.getEmail());
@@ -33,7 +33,7 @@ public class UtilisateurRepository {
     public Utilisateur getUtilisateursParEmail(String email) {
         String sql = "SELECT * FROM utilisateur s WHERE email = ?";
         try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
+            PreparedStatement stmt = connexion.prepareStatement(sql);
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()){
@@ -63,5 +63,40 @@ public class UtilisateurRepository {
     }
     public void mettreAJourUtilisateur(Utilisateur utilisateur) {
         String sql = "Update utilisateur SET nom=?, prenom=?, mdp=?, role=? where email = ?";
+    }
+    public Utilisateur findByMail(String mail) {
+        String requete = "SELECT * FROM utilisateur WHERE email = ?";
+        try {
+            PreparedStatement stmt = connexion.prepareStatement(requete);
+            stmt.setString(1, mail);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Utilisateur(
+                        rs.getInt("id_utilisateur"),
+                        rs.getString("prenom"),
+                        rs.getString("nom"),
+                        rs.getString("email"),
+                        rs.getString("mdp"),
+                        rs.getString("role")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public void save(Utilisateur utilisateur) {
+        String requete = "INSERT INTO utilisateur(prenom, nom, email, mdp, role) VALUES (?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement stmt = connexion.prepareStatement(requete);
+            stmt.setString(1, utilisateur.getPrenom());
+            stmt.setString(2, utilisateur.getNom());
+            stmt.setString(3, utilisateur.getEmail());
+            stmt.setString(4, utilisateur.getMdp());
+            stmt.setString(5, utilisateur.getRole());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

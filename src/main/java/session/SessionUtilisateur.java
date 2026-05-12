@@ -4,10 +4,9 @@ import model.Utilisateur;
 
 public class SessionUtilisateur {
     private static SessionUtilisateur instance;
-    private Utilisateur utilisateurConnecte;
-
-    private SessionUtilisateur() { }
-
+    private Utilisateur utilisateur;
+    private SessionUtilisateur() {
+    }
     public static SessionUtilisateur getInstance() {
         if (instance == null) {
             instance = new SessionUtilisateur();
@@ -15,16 +14,12 @@ public class SessionUtilisateur {
         return instance;
     }
     public void sauvegardeSession(Utilisateur utilisateur) {
-        if (this.utilisateurConnecte == null) {
-            this.utilisateurConnecte = utilisateur;
-        }
+        this.utilisateur = utilisateur;
     }
-
     public Utilisateur getUtilisateur() {
-        return utilisateurConnecte;
+        return utilisateur;
     }
-
     public void deconnecter() {
-        utilisateurConnecte = null;
+        utilisateur = null;
     }
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="appli.accueil.GestionUserControler">
+    <top>
+        <HBox spacing="10" style="-fx-padding: 15;">
+            <Label text="Gestion des utilisateurs" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Deconnexion" fx:id="btnDeconnexion" />
+        </HBox>
+    </top>
+    <center>
+        <VBox style="-fx-padding: 15;">
+            <TableView fx:id="tableauUser" prefHeight="400" prefWidth="600">
+                <placeholder>
+                    <Label text="Aucune colonne dans la table" />
+                </placeholder>
+            </TableView>
+        </VBox>
+    </center>
+    <right>
+        <VBox spacing="10" style="-fx-padding: 15;">
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <Button text="Supprimer" fx:id="btnSupprimer" disable="true" />
+        </VBox>
+    </right>
+</BorderPane>
